@@ -2,14 +2,11 @@ import React, { Component } from "react";
 import Axios from "axios";
 
 class QuoteBox extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			quotes: [],
-			isLoaded: false,
-			randomQuote: {}
-		};
-	}
+	state = {
+		quotes: [],
+		isLoaded: false,
+		randomQuote: {}
+	};
 
 	componentDidMount() {
 		Axios.get(
@@ -20,7 +17,7 @@ class QuoteBox extends Component {
 		});
 	}
 
-	newRandomQuote = e => {
+	newRandomQuote = () => {
 		const { quotes } = this.state;
 		this.setState({
 			randomQuote: quotes[Math.floor(Math.random() * quotes.length)]
@@ -28,8 +25,7 @@ class QuoteBox extends Component {
 	};
 
 	render() {
-		const { quote, author } = this.state.randomQuote;
-		const { isLoaded } = this.state;
+		const { quote, author, isLoaded } = this.state;
 		if (isLoaded) {
 			return (
 				<div
@@ -39,10 +35,10 @@ class QuoteBox extends Component {
 					<div id="quote-box" className>
 						{}
 						<h2 id="text" className="text-center">
-							{quote}
+							{randomQuote.quote}
 						</h2>
 						<p id="author" className="text-right">
-							- {author}
+							- {randomQuote.author}
 						</p>
 
 						<button
@@ -56,7 +52,7 @@ class QuoteBox extends Component {
 							<a
 								id="tweet-quote"
 								href={`https://twitter.com/intent/tweet?hashtags=quotes&text=${encodeURIComponent(
-									'"' + quote + '" - ' + author
+									'"' + randomQuote.quote + '" - ' + randomQuote.author
 								)}`}
 							>
 								<i style={{ size: 100 }} class="fab fa-twitter fa-lg" />
